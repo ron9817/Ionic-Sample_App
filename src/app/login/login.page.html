@@ -1,0 +1,99 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size-md="6" offset-md="3">
+
+      <ion-row>
+        <ion-col>
+          <ion-item class="ion-no-padding">
+            <ion-label position="floating" autofocus=true color="primary">User Name</ion-label>
+            <ion-input [(ngModel)]="userName" autofocus=true margin id="userName" color="secondary" type="text" class="border"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    
+      <ion-row>
+        <ion-col>
+          <ion-item class="ion-no-padding">
+            <ion-label position="floating" color="primary">Password</ion-label>
+            <ion-input [(ngModel)]="password" margin id="Password" type="password" color="secondary"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="6">
+          <ion-button expand="full" color="primary" (click)="login()"> <ion-icon name="log-in-outline" slot="end"></ion-icon>Log In</ion-button>
+        </ion-col>
+        <ion-col size=6>
+          <ion-button expand="full" color="outline" style="color:blue; font-size: 12px;" [routerLink]="['/register']">
+            New User?
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+<!--
+old
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating" autofocus=true color="primary">First Name</ion-label>
+          <ion-input margin id="fname" color="secondary" type="text" class="border"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating" color="primary">Last Name</ion-label>
+          <ion-input margin id="lname" color="secondary" type="text"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-item class="ion-no-padding">
+          <ion-label position="floating" color="primary">Password</ion-label>
+          <ion-input margin id="Password" type="password" color="secondary"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-row>
+    <ion-col size-md="6" offset-md="3">
+      <ion-row>
+        <ion-col size="4">
+          <ion-button expand="full" color="primary"> <ion-icon name="log-in-outline" slot="end"></ion-icon>Login</ion-button><!-- [routerLink]="['/home']"-->
+        <!--</ion-col>
+        <ion-col>
+          <ion-item lines="none" style="color:blue; font-size: 12px;" [routerLink]="['/register']">New User</ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+      
+</ion-content> -->

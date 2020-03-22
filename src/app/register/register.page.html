@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registration</ion-title>
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+    <ion-row>
+      <ion-col size-md="6" offset-md="3">
+        <ion-row>
+          <ion-col>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating" autofocus=true color="primary">First Name</ion-label>
+              <ion-input [(ngModel)]="firstName" margin id="firstName" color="secondary" type="text" class="border"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating" color="primary">Last Name</ion-label>
+              <ion-input [(ngModel)]="lastName" margin id="lastName" color="secondary" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating" color="primary">User Name</ion-label>
+              <ion-input [(ngModel)]="userName" margin id="userName" color="secondary" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item class="ion-no-padding">
+              <ion-label position="floating" color="primary">Password</ion-label>
+              <ion-input [(ngModel)]="password" margin id="password" type="password" color="secondary"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item lines="none" class="ion-no-padding">
+                <ion-label position="" color="primary">Gender</ion-label>
+            </ion-item>
+            <ion-item  lines="none">
+              <ion-radio-group value=1>
+                <ion-item lines="none">
+                  <ion-label color="primary" lines="none">Male</ion-label>
+                  <ion-radio (click)="genderChange(1)" value=1 color="secondary" slot="start"></ion-radio>
+                </ion-item>
+  
+                <ion-item lines="none">
+                  <ion-label color="primary" lines="none">Female</ion-label>
+                  <ion-radio (click)="genderChange(2)" value=2 color="secondary" slot="start"></ion-radio>  
+                </ion-item>
+              </ion-radio-group>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row>
+          <ion-col>
+            <ion-item class="ion-no-padding">
+              <ion-label color="primary" position="floating">Address</ion-label>
+              <ion-textarea [(ngModel)]="address" id="address" margin color="secondary"></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="full" color="primary" (click)="register()"> <ion-icon name="log-in-outline" slot="end"></ion-icon>Register</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="full" color="outline" style="color:blue; font-size: 12px;" [routerLink]="['/login']">Already registered?</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>     
+</ion-content>
