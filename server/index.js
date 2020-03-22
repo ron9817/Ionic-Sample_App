@@ -1,18 +1,39 @@
 const express=require("express");
 bodyParser = require('body-parser');
 const app=express();
+const jwt = require('jsonwebtoken');
+var ObjectID = require('mongodb').ObjectID;
 var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
 const MongoClient = require('mongodb').MongoClient
 var db;
+const accessTokenSecret = '321#%6789wer1234tkrt$';
 
-app.post('/log-in',(req,res)=>{
+
+
+const authenticateJWT = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (authHeader) {
+        const token = authHeader.split(' ')[1];
+
+        jwt.verify(token, accessTokenSecret, (err, data) => {
+            if (err) {
+                return res.sendStatus(403);
+			}
+			req.data = data;
+            next();
+        });
+    } else {
+        res.sendStatus(401);
+    }
+};
+
+app.post('/log-in', (req,res)=>{
 	const userName=req.body.userName;
 	const password=req.body.password;
-	// const userName="123n1";
-	// const password="123n1";
 	db.collection('Users').find({
 		userName:userName
 	}).toArray((err,result)=>{
@@ -20,7 +41,8 @@ app.post('/log-in',(req,res)=>{
 			res.send(err);
 		else if(result.length>0){
 			if(result[0].password==password){
-				res.send({resp:1,userName:userName});
+				const accessToken = jwt.sign({ id: result[0]._id, userName: result[0].userName }, accessTokenSecret);
+				res.send({resp:1,accessToken:accessToken});
 			}else{
 				res.send({resp:-1});
 			}
@@ -29,21 +51,9 @@ app.post('/log-in',(req,res)=>{
 		}
 			
 	});
-	// res.send("fail");
 });
 
 app.post('/register',(req,res)=>{
-	// const userName=req.body.userName;
-	// const password=req.body.password;
-	// console.log(req.body);
-	// const data={
-	// 			firstName:"Test5",
-	// 			lastName:"Test",
-	// 			userName:"ron5",
-	// 			password:"133132",
-	// 			gender:1,
-	// 			address:"B-2, Abc, Xyz"
-	// 		};
 	data=req.body;
 	db.collection('Users').insertOne(data,(err,result)=>{
 		if(err)
@@ -51,6 +61,12 @@ app.post('/register',(req,res)=>{
 		else
 			res.json({resp:1});
 	});
+});
+
+app.get('/home',authenticateJWT,(req,res)=>{
+	res.json({
+		"resp":1,
+		"userName":req.data.userName});
 });
 
 

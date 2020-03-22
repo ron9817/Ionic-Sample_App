@@ -27,6 +27,7 @@ export class LoginPage implements OnInit {
       .subscribe(data => {
         console.log(data.resp);
         if(data.resp==1){
+          console.log(data.accessToken);
           this.presentToast("login successfull");
           this.router.navigate(['/home']);
         }else{
