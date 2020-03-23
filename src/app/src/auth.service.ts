@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -35,11 +36,49 @@ export class AuthService {
     return this.http.post<any>(this._url+"register",data)
                     .catch(this.errorHandler);
   }
-  login(data): Observable<any>{
+  login(data){
     // const data={a:1};
-    return this.http.post<any>(this._url+"log-in",data)
-                    .catch(this.errorHandler);
+
+    var api_output=this.http.post<any>(this._url+"log-in",data)
+    .catch(this.errorHandler);
+    api_output.subscribe(data=>{
+      if(data.resp==1){
+        this.storage.set(TOKEN_KEY, 'Bearer '+data.accessToken).then(() => {
+          this.authenticationState.next(true);
+        });
+      }
+    });
+
+
+
+    return api_output;
   }
+
+
+
+  logout() {
+    return this.storage.remove(TOKEN_KEY).then(() => {
+      this.authenticationState.next(false);
+    });
+  }
+
+  home(){
+    return this.storage.get(TOKEN_KEY).then(res => {
+      const httpOptions={
+        headers:new HttpHeaders({
+          'Authorization':res
+        })
+      }
+      return this.http.get<any>(this._url+"home",httpOptions).catch(this.errorHandler);
+    });
+  }
+ 
+  isAuthenticated() {
+    return this.authenticationState.value;
+  }
+
+
+
   errorHandler(error: HttpErrorResponse){
     return Observable.throw(error.message || "Server Error");
   }

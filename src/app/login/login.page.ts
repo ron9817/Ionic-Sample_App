@@ -23,6 +23,8 @@ export class LoginPage implements OnInit {
       userName:this.userName,
       password:this.password
     }
+    console.log("Page");
+    // console.log(this._authService.login(data_body));
     this._authService.login(data_body)
       .subscribe(data => {
         console.log(data.resp);
