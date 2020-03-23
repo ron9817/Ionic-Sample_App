@@ -18,13 +18,12 @@ export class AuthGuard implements CanActivate {
   // }
 
   canActivate(): boolean {
-    console.log(this.auth.isAuthenticated());
-    if(this.auth.isAuthenticated()){
+    // if(this.auth.isAuthenticated())
       return true;
-    }
     this.presentToast("Login first");
     this.router.navigate(['login']);
     return false;
+    
   }
   async presentToast(msg) {
     const toast = await this.toastController.create({

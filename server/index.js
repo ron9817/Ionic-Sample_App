@@ -22,13 +22,15 @@ console.log(authHeader);
 
         jwt.verify(token, accessTokenSecret, (err, data) => {
             if (err) {
-                return res.sendStatus(403);
+                //return res.sendStatus(403);
+		return res.json({resp:-1,error:403});
 			}
 			req.data = data;
             next();
         });
     } else {
-        res.sendStatus(401);
+        //res.sendStatus(401);
+        res.json({resp:-1,error:401});
     }
 };
 

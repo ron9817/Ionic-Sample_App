@@ -17,20 +17,18 @@ const TOKEN_KEY = 'auth-token';
 export class AuthService {
 
   _url="http://localhost:9090/";
-  authenticationState = new BehaviorSubject(false);
+  // authenticationState = new BehaviorSubject(false);
 
-  constructor(private http:HttpClient, private storage: Storage, private plt: Platform) { 
-    this.plt.ready().then(() => {
-      this.checkToken();
-    });
+  constructor(private http:HttpClient, private storage: Storage) { 
+    // this.checkToken();
   }
-  checkToken() {
-    this.storage.get(TOKEN_KEY).then(res => {
-      if (res) {
-        this.authenticationState.next(true);
-      }
-    })
-  }
+  // async checkToken() {
+  //   await this.storage.get(TOKEN_KEY).then(res => {
+  //     if (res) {
+  //       this.authenticationState.next(true);
+  //     }
+  //   });
+  // }
   register(data): Observable<any>{
     // const data={a:1};
     return this.http.post<any>(this._url+"register",data)
@@ -43,41 +41,39 @@ export class AuthService {
     .catch(this.errorHandler);
     api_output.subscribe(data=>{
       if(data.resp==1){
-        this.storage.set(TOKEN_KEY, 'Bearer '+data.accessToken).then(() => {
-          this.authenticationState.next(true);
-        });
+        this.storage.set(TOKEN_KEY, 'Bearer '+data.accessToken);
+        // .then(() => {
+        //   this.authenticationState.next(true);
+        // });
       }
     });
-
-
-
     return api_output;
   }
-
-
-
   logout() {
-    return this.storage.remove(TOKEN_KEY).then(() => {
-      this.authenticationState.next(false);
-    });
+    return this.storage.remove(TOKEN_KEY);
+    // .then(() => {
+      // this.authenticationState.next(false);
+    // });
   }
 
   home(){
     return this.storage.get(TOKEN_KEY).then(res => {
-      const httpOptions={
-        headers:new HttpHeaders({
-          'Authorization':res
-        })
+      if(res){
+        const httpOptions={
+          headers:new HttpHeaders({
+            'Authorization':res
+          })
+        }
+        return this.http.get<any>(this._url+"home",httpOptions).catch(this.errorHandler);
       }
-      return this.http.get<any>(this._url+"home",httpOptions).catch(this.errorHandler);
+      return this.http.get<any>(this._url+"home").catch(this.errorHandler);
     });
   }
  
   isAuthenticated() {
-    return this.authenticationState.value;
+    // return this.authenticationState.value;
+    
   }
-
-
 
   errorHandler(error: HttpErrorResponse){
     return Observable.throw(error.message || "Server Error");
