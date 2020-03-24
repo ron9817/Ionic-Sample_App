@@ -71,7 +71,15 @@ export class AuthService {
   }
  
   isAuthenticated() {
-    // return this.authenticationState.value;
+    
+    return this.storage.get(TOKEN_KEY).then(res => {
+          if (res) {
+            console.log("res");
+            console.log(res);
+            return true;
+          }
+          return false;
+        });
     
   }
 

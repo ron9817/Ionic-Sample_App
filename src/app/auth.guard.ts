@@ -17,12 +17,19 @@ export class AuthGuard implements CanActivate {
   //   return true;
   // }
 
-  canActivate(): boolean {
-    // if(this.auth.isAuthenticated())
+  canActivate(): Promise <boolean> {
+    return this.auth.isAuthenticated().then(data=>{
+      if(data)
+    {
+      console.log("Auth Guard True");
       return true;
+    }
+    console.log("Auth Guard False");
     this.presentToast("Login first");
     this.router.navigate(['login']);
     return false;
+    });
+    
     
   }
   async presentToast(msg) {
