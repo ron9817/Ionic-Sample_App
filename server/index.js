@@ -12,24 +12,20 @@ var db;
 const accessTokenSecret = '321#%6789wer1234tkrt$';
 
 
-
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
-console.log(authHeader);
 
     if (authHeader) {
         const token = authHeader.split(' ')[1];
 
         jwt.verify(token, accessTokenSecret, (err, data) => {
             if (err) {
-                //return res.sendStatus(403);
 		return res.json({resp:-1,error:403});
 			}
 			req.data = data;
             next();
         });
     } else {
-        //res.sendStatus(401);
         res.json({resp:-1,error:401});
     }
 };
@@ -67,9 +63,28 @@ app.post('/register',(req,res)=>{
 });
 
 app.get('/home',authenticateJWT,(req,res)=>{
-	res.json({
-		"resp":1,
-		"userName":req.data.userName});
+	db.collection('Users').find({
+			_id:ObjectID(req.data.id)
+		}).toArray((err,result)=>{
+			// console.log(result);
+			if(err)
+				res.json({
+					resp:-1,
+					error:err
+				});
+			else{
+				res.json({
+					resp:1,
+					data:{
+						userName:result[0].userName,
+						firstName:result[0].firstName,
+						lastName:result[0].lastName,
+						gender:result[0].gender,
+						address:result[0].address
+					}
+				});
+			}
+		});
 });
 
 

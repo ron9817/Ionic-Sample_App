@@ -19,31 +19,35 @@ export class LoginPage implements OnInit {
   }
 
   login(){
-    const data_body={
-      userName:this.userName,
-      password:this.password
+    if(!this.userName){
+      this.presentToast("Please enter user name");
+    }else if(!this.password){
+      this.presentToast("Please enter password");
+    }else{
+      const data_body={
+        userName:this.userName,
+        password:this.password
+      }
+      this._authService.login(data_body)
+        .subscribe(data => {
+          console.log(data.resp);
+          if(data.resp==1){
+            console.log(data.accessToken);
+            this.presentToast("login successfull");
+            this.router.navigate(['/home']);
+          }else{
+            this.presentToast("login unsuccessfull. Try again");
+          }
+        },
+        error => this.presentToast("login unsuccessfull. Try again"));
     }
-    console.log("Page");
-    // console.log(this._authService.login(data_body));
-    this._authService.login(data_body)
-      .subscribe(data => {
-        console.log(data.resp);
-        if(data.resp==1){
-          console.log(data.accessToken);
-          this.presentToast("login successfull");
-          this.router.navigate(['/home']);
-        }else{
-          this.presentToast("login unsuccessfull. Try again");
-        }
-      },
-      error => this.presentToast("login unsuccessfull. Try again"));
-    console.log(this.userName+" "+this.password);
   }
 
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 2000
+      duration: 2000,
+      color:"primary"
     });
     toast.present();
   }

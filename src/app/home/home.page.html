@@ -3,13 +3,16 @@
     <ion-title>
       Home
     </ion-title>
+    <ion-buttons color="primary" slot="end" (click)="logout()">
+      Logout<ion-icon slot="end" name="log-out-outline"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-row>
     <ion-col>
-      This is home page visible only on login. User name is {{userName}}
+      This is home page visible only on login.
     </ion-col>
   </ion-row>
 
@@ -18,5 +21,37 @@
       User name is {{userName}}
     </ion-col>
   </ion-row>
+
+  <ion-row>
+    <ion-col>
+      User details are as follows:-
+    </ion-col>
+  </ion-row>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{firstName}} {{lastName}}</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          Gender
+        </ion-col>
+        <ion-col>
+          {{gender}}
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          Address
+        </ion-col>
+        <ion-col>
+          {{address}}
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

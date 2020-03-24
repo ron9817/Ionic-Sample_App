@@ -26,7 +26,8 @@ export class LoginGuard implements CanActivate {
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 2000
+      duration: 2000,
+      color:"primary"
     });
     toast.present();
   }

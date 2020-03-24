@@ -23,26 +23,37 @@ export class RegisterPage implements OnInit {
   } 
 
   register(){
-    const data_body={
-      firstName:this.firstName,
-      lastName:this.lastName,
-      userName:this.userName,
-      password:this.password,
-      address:this.address,
-      gender:this.gender
-    };
-    this._authService.register(data_body)
-      .subscribe(data => {
-        console.log(data.resp);
-        if(data.resp==1){
-          this.presentToast("registration successfull");
-          this.router.navigate(['/login']);
-        }else{
-          this.presentToast("registration unsuccessfull. Try again");
-        }
-      },
-      error => this.presentToast("registration unsuccessfull. Try again"));
-    console.log(this.firstName+" "+this.lastName+" "+this.password+" "+this.address+" "+this.gender);
+    if (!this.firstName){
+      this.presentToast("Please enter first name");
+    }else if (!this.lastName){
+      this.presentToast("Please enter last name");
+    }else if (!this.userName){
+      this.presentToast("Please enter user name");
+    }else if (!this.password){
+      this.presentToast("Please enter password");
+    }else if (!this.address){
+      this.presentToast("Please enter address");
+    }else{
+      const data_body={
+        firstName:this.firstName,
+        lastName:this.lastName,
+        userName:this.userName,
+        password:this.password,
+        address:this.address,
+        gender:this.gender
+      };
+      this._authService.register(data_body)
+        .subscribe(data => {
+          if(data.resp==1){
+            this.presentToast("registration successfull");
+            this.router.navigate(['/login']);
+          }else{
+            this.presentToast("registration unsuccessfull. Try again");
+          }
+        },
+        error => this.presentToast("registration unsuccessfull. Try again"));
+    }
+    
   }
 
   genderChange(g){
@@ -52,7 +63,8 @@ export class RegisterPage implements OnInit {
   async presentToast(msg) {
     const toast = await this.toastController.create({
       message: msg,
-      duration: 2000
+      duration: 2000,
+      color:"primary"
     });
     toast.present();
   }
