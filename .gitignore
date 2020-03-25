@@ -49,7 +49,7 @@ plugins
 # Using Android gitignore template: https://github.com/github/gitignore/blob/master/Android.gitignore
 
 # Built application files
-*.apk
+#*.apk
 *.ap_
 *.aab
 
