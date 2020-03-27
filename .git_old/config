@@ -1,0 +1,11 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[user]
+	email = ronak19982014@gmail.com
+	name = ron9817
+[remote "origin"]
+	url = https://github.com/ron9817/Ionic-Sample_App.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
