@@ -2,6 +2,8 @@ const express=require("express");
 bodyParser = require('body-parser');
 const app=express();
 const jwt = require('jsonwebtoken');
+var bcrypt = require('bcrypt');
+const saltRounds = 10;
 var ObjectID = require('mongodb').ObjectID;
 var cors = require('cors');
 app.use(cors());
@@ -39,12 +41,18 @@ app.post('/log-in', (req,res)=>{
 		if(err)
 			res.send(err);
 		else if(result.length>0){
-			if(result[0].password==password){
-				const accessToken = jwt.sign({ id: result[0]._id, userName: result[0].userName }, accessTokenSecret);
-				res.send({resp:1,accessToken:accessToken});
-			}else{
-				res.send({resp:-1});
-			}
+
+			bcrypt.compare(password, result[0].password, (errr, results)=>{
+				if(errr){
+					res.send({resp:-1,error:errr});
+				}
+				if (results == true) {
+					const accessToken = jwt.sign({ id: result[0]._id, userName: result[0].userName }, accessTokenSecret);
+					res.send({resp:1,accessToken:accessToken});
+				} else {
+					res.send({resp:-1,error:"wrong password"});
+				}
+			});
 		}else{
 			res.send({resp:-1});
 		}
@@ -54,11 +62,16 @@ app.post('/log-in', (req,res)=>{
 
 app.post('/register',(req,res)=>{
 	data=req.body;
-	db.collection('Users').insertOne(data,(err,result)=>{
+	bcrypt.hash(data.password, saltRounds, (err,   hash)=> {
 		if(err)
 			res.json({resp:-1,error:err});
-		else
-			res.json({resp:1});
+		data.password=hash;
+		db.collection('Users').insertOne(data,(err,result)=>{
+			if(err)
+				res.json({resp:-1,error:err});
+			else
+				res.json({resp:1,result:result});
+		});
 	});
 });
 

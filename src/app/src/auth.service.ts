@@ -16,8 +16,8 @@ const TOKEN_KEY = 'auth-token';
 })
 export class AuthService {
 
-  //_url="http://localhost:9090/";
-  _url="http://5c03b983.ngrok.io/"
+  _url="http://localhost:9090/";
+  // _url="http://5c03b983.ngrok.io/"
   // authenticationState = new BehaviorSubject(false);
 
   constructor(private http:HttpClient, private storage: Storage) { 
