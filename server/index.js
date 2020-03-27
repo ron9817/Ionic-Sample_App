@@ -60,6 +60,25 @@ app.post('/log-in', (req,res)=>{
 	});
 });
 
+app.post('/validate', (req,res)=>{
+	const userName=req.body.userName;
+	db.collection('Users').find({
+		userName:userName
+	}).toArray((err,result)=>{
+		if(err)
+			res.json({resp:-1,error:err});
+		else if(result.length>0){
+			res.json({resp:2,msg:"Username already exists"});
+		}else if(result.length==0){
+			res.json({resp:1});
+		}else{
+			res.json({resp:-1});
+		}
+			
+	});
+});
+
+
 app.post('/register',(req,res)=>{
 	data=req.body;
 	bcrypt.hash(data.password, saltRounds, (err,   hash)=> {

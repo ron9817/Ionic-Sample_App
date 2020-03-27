@@ -31,7 +31,14 @@
           <ion-col>
             <ion-item class="ion-no-padding">
               <ion-label position="floating" color="primary">User Name</ion-label>
-              <ion-input [(ngModel)]="userName" margin id="userName" color="secondary" type="text"></ion-input>
+              <ion-input (change)="validate()" [(ngModel)]="userName" margin id="userName" color="secondary" type="text"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="validated_username==2">
+          <ion-col>
+            <ion-item color="danger">
+            Username already exists.
             </ion-item>
           </ion-col>
         </ion-row>

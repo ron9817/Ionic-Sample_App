@@ -30,6 +30,12 @@ export class AuthService {
   //     }
   //   });
   // }
+  validate(data): Observable<any>{
+    // const data={a:1};
+    return this.http.post<any>(this._url+"validate",data)
+                    .catch(this.errorHandler);
+  }
+
   register(data): Observable<any>{
     // const data={a:1};
     return this.http.post<any>(this._url+"register",data)
